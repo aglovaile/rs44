@@ -63,20 +63,15 @@ class App extends Component {
       y = (y + 1) % 24
     }
 
+    grid.map(row => row.map(cell => cell.letter = ''))
+    
     letters.map(letter => {
-      while (grid[x][y].value !== 1) {
-        inc()
-      }
+      while (grid[x][y].value !== 1) inc()
       grid[x][y].letter = letter
       inc()
       return [x, y]
     })
-    this.setState(prevState => ({
-      grid: {
-        ...prevState.grid,
-        data: grid
-      }
-    }))
+    this.setState(prevState => ({ grid: { ...prevState.grid, data: grid }}))
   }
 
   render() {
