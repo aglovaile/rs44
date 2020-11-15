@@ -1,0 +1,11 @@
+
+.grid-cell {
+  width: 25px;
+  height: 25px;
+}
+.cell-black {
+  background-color: black;
+}
+.cell-white {
+ background-color: white;
+}
