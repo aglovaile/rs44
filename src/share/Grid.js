@@ -45,15 +45,15 @@ const makeGrid = () => {
 }
 
 function Grid () {
-  const data = makeGrid()
-  const id = gridId(data)
+  const rows = makeGrid()
+  const id = gridId(rows)
   const header = {
     digraph: digraph(),
     numbers: shuffle(Array(25).fill().map((i,j) => j))
   }
   const side = digraph().filter(i => i !== 'ee')
 
-  this.data = data
+  this.rows = rows
   this.id = id
   this.header = header
   this.side = side

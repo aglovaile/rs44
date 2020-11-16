@@ -4,15 +4,12 @@ import GridTable from './components/GridTable';
 import Grid from './share/Grid'
 import './App.css'
 
-// Todo:
-// add import/export function for grids and such
-
 class App extends Component {
   constructor() {
     super()
     this.state = {
       grid: new Grid(),
-      message: 'EINPANZERKOMMT',
+      message: 'GRUENGRUENGRUENSINDALLEMEINEKLEIDERGRUENGRUENGRUENSINDALLESWASICHHAB',
       cipherText: '',
       startInd: {
         digraphs: ['aa', 'bb'],
@@ -56,13 +53,12 @@ class App extends Component {
 
   populateGrid = () => {
     const letters = this.state.message.split('')
-    let grid = this.state.grid.data
+    let grid = this.state.grid.rows
     let [x, y] = this.state.startInd.xy
 
     function inc () {
       if (y === 24) x = (x + 1) % 23
       y = (y + 1) % 25
-      console.log(`Moving to [${x}, ${y}]`)
     }
 
     grid.map(row => row.map(cell => cell.letter = ''))
@@ -73,7 +69,30 @@ class App extends Component {
       inc()
       return [x, y]
     })
-    this.setState(prevState => ({ grid: { ...prevState.grid, data: grid }}))
+    this.setState(prevState => ({ grid: { ...prevState.grid, rows: grid }}))
+  }
+
+  encrypt = () => {
+    this.populateGrid()
+    const grid = this.state.grid.rows
+    const headerNums = this.state.grid.header.numbers
+    const startY = this.state.startInd.xy[1]
+    const {offset} = this.state
+    const startIndex = headerNums[startY + offset]
+    console.log(startIndex)
+
+    function getColumnLetters(ind) {
+      return grid.map(row => row[ind].letter).filter(i => i !== '')
+    }
+
+    const cipherTextArray = grid.map((r, j) => {
+      const currentColumn = (startIndex + j) % 25
+      const currentIndex = headerNums.indexOf(currentColumn)
+      console.log(`Looking for ${currentColumn} at index ${currentIndex}`)
+      return getColumnLetters(currentIndex).join('')
+    })
+    const cipherText = cipherTextArray.join('')
+    this.setState(prevState => ({ cipherText: cipherText }))
   }
 
   render() {
@@ -92,10 +111,11 @@ class App extends Component {
           activeCell={this.state.startInd.xy}
         />
         <p>Your current message: {this.state.message}</p>
+        <p>Your encrypted message: {this.state.cipherText}</p>
         <p>Your current message length: {this.state.message.length}</p>
         <p>Your current start index: {this.state.startInd.digraphs} at [{this.state.startInd.xy[0]}, {this.state.startInd.xy[1]}]</p>
         <p>Your current offset: {this.state.offset}</p>
-        <button onClick={this.populateGrid}>Encrypt!</button>
+        <button onClick={this.encrypt}>Encrypt!</button>
       </div>
     )
   }

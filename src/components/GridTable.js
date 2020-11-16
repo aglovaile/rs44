@@ -5,7 +5,7 @@ const GridTable = (props) => {
   const {header, side} = grid
 
   function Rows () {
-    return grid.data.map((r,i) => {
+    return grid.rows.map((r,i) => {
       return (
         <tr id={`row-${i}`} key={`row-${i}`}>
           {Row(r, i)}
@@ -36,7 +36,7 @@ const GridTable = (props) => {
     return (
       ['digraph', 'numbers'].map(i => {
         const rowId = `grid-${i}-header`
-        const cellClass = `${rowId}-cell`
+        const cellClass = `${rowId}-cell no-select`
         return (
           <tr id={rowId} key={rowId}>
             {header[i].map(num => <th key={`grid-header-number-${num}`} className={cellClass}>{num}</th>)}
@@ -48,7 +48,9 @@ const GridTable = (props) => {
 
   return (
     <table id="grid-table">
-      <GridHeader />
+      <tbody>
+        <GridHeader />
+      </tbody>
       <tbody id="grid-body">
         <Rows />
       </tbody>
