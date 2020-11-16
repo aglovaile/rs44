@@ -13,6 +13,7 @@ class App extends Component {
     this.state = {
       grid: new Grid(),
       message: 'EINPANZERKOMMT',
+      cipherText: '',
       startInd: {
         digraphs: ['aa', 'bb'],
         xy: [0, 0]
@@ -59,8 +60,9 @@ class App extends Component {
     let [x, y] = this.state.startInd.xy
 
     function inc () {
-      if (y === 23) x = (x + 1) % 23
-      y = (y + 1) % 24
+      if (y === 24) x = (x + 1) % 23
+      y = (y + 1) % 25
+      console.log(`Moving to [${x}, ${y}]`)
     }
 
     grid.map(row => row.map(cell => cell.letter = ''))
@@ -87,6 +89,7 @@ class App extends Component {
         <GridTable 
           grid={this.state.grid}
           handleCellClick={this.handleCellClick}
+          activeCell={this.state.startInd.xy}
         />
         <p>Your current message: {this.state.message}</p>
         <p>Your current message length: {this.state.message.length}</p>
