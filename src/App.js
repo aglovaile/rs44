@@ -3,6 +3,7 @@ import TextInput from './components/TextInput'
 import GridTable from './components/Grid/GridTable';
 import Grid from './share/Grid'
 import InfoBox from './components/InfoBox'
+import Output from './components/Output'
 import './App.css'
 
 class App extends Component {
@@ -103,8 +104,8 @@ asdf
 				<InfoBox 
 					message={this.state.message} 
 					gridId={this.state.grid.id}
-					startInd={this.state.grid.startInd}
-					offset={this.state.grid.offset}
+					startInd={this.state.startInd}
+					offset={this.state.offset}
 				/>
         <TextInput 
           gridId={this.state.grid.id}
@@ -120,9 +121,8 @@ asdf
         <p>Your current message: {this.state.message}</p>
         <p>Your encrypted message: {this.state.cipherText}</p>
         <p>Your message/ciphertext length: {`${this.state.message.length}/${this.state.cipherText.length}`}</p>
-        <p>Your current start index: {this.state.startInd.digraphs} at [{this.state.startInd.xy[0]}, {this.state.startInd.xy[1]}]</p>
-        <p>Your current offset: {this.state.offset}</p>
-        <button onClick={this.encrypt}>Encrypt!</button>
+				<Output cipherText={this.state.cipherText} />
+				<button onClick={this.encrypt}>Encrypt!</button>
       </div>
     )
   }
