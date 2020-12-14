@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import TextInput from './components/TextInput'
 import GridTable from './components/Grid/GridTable';
 import Grid from './share/Grid'
+import InfoBox from './components/InfoBox'
 import './App.css'
 
 class App extends Component {
@@ -21,7 +22,7 @@ class App extends Component {
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleCellClick = this.handleCellClick.bind(this)
   }
-
+	
   handleTextChange = (e) => {
     const {value} = e.target
     const newText = value.replace(/[^a-zA-Z]/g, '').toUpperCase()
@@ -34,7 +35,7 @@ class App extends Component {
   handleNewGrid = (e) =>{
     this.setState({ grid: new Grid() })
   }
-
+asdf
   handleCellClick = (e) => {
     const [x, y] = e.target.id.match(/\d+/g)
     const a = this.state.grid.header.digraph
@@ -79,18 +80,19 @@ class App extends Component {
     const startY = this.state.startInd.xy[1]
     const {offset} = this.state
     const startIndex = headerNums[startY + offset]
-    console.log(startIndex)
 
     function getColumnLetters(ind) {
       return grid.map(row => row[ind].letter).filter(i => i !== '')
     }
 
-    const cipherTextArray = grid.map((r, j) => {
-      const currentColumn = (startIndex + j) % 25
+		let cipherTextArray = []
+
+		for (let a = 0; a < 25; a += 1) {
+      const currentColumn = (startIndex + a) % 25
       const currentIndex = headerNums.indexOf(currentColumn)
       console.log(`Looking for ${currentColumn} at index ${currentIndex}`)
-      return getColumnLetters(currentIndex).join('')
-    })
+      cipherTextArray.push(getColumnLetters(currentIndex).join(''))
+		}
     const cipherText = cipherTextArray.join('')
     this.setState(prevState => ({ cipherText: cipherText }))
   }
@@ -98,7 +100,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <p>Grid Id: {this.state.grid.id}</p>
+				<InfoBox 
+					message={this.state.message} 
+					gridId={this.state.grid.id}
+					startInd={this.state.grid.startInd}
+					offset={this.state.grid.offset}
+				/>
         <TextInput 
           gridId={this.state.grid.id}
           text={this.state.text} 
@@ -119,7 +126,6 @@ class App extends Component {
       </div>
     )
   }
-
 }
 
 export default App;
