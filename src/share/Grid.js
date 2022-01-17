@@ -13,18 +13,33 @@ function shuffle (array) {
   return arr
 }
 
-const digraph = () => {
+const makeDigraph = () => {
   const letters = ['a', 'b', 'c', 'd', 'e']
   const pairs = [].concat(...letters.map(i => letters.map(j => `${i}${j}`)))
   return shuffle(pairs)
 }
 
 function gridId (grid) {
-  // Converts RS-44 grid into 5-bit binary numbers, then returns as hex
-  const binNums= grid.map(row => row.map(cell => cell.value).join('')).join('').match(/.{1,5}/g)
-  const hex = binNums.map(bin => parseInt(bin, 2).toString(32))
-  return hex.join('')
+  // Converts RS-44 grid into 5-bit binary numbers, then returns as character string
+  // Id contains chars matching /[0-9a-v]/ 
+
+  const binNums= grid.map(row => row.map(cell => cell.value)
+    .join('')).join('')
+    .match(/.{1,5}/g)
+  const idArray = binNums.map(bin => parseInt(bin, 2).toString(32))
+  return idArray.join('')
 }
+
+// const makeGridFromId = (id) => {
+//   // Converts char id string into grid array
+//   // Still being worked on
+
+//   const binNums = id.split('')
+//    .map(hex => parseInt(hex, 16).toString(2)) // convert hex char into binary string
+//    .join('')
+
+//   return binNums
+// }
 
 const makeGrid = () => {
   let grid = []
@@ -48,10 +63,10 @@ function Grid () {
   const rows = makeGrid()
   const id = gridId(rows)
   const header = {
-    digraph: digraph(),
+    digraph: makeDigraph(),
     numbers: shuffle(Array(25).fill().map((i,j) => j))
   }
-  const side = digraph().filter(i => i !== 'ee')
+  const side = makeDigraph().filter(i => i !== 'ee')
 
   this.rows = rows
   this.id = id
