@@ -1,6 +1,8 @@
 # Rasterschlüssel 44
 A Javascript implementation of the WWII German cipher, built in React.
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/aglovaile/rs44/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/aglovaile/rs44/tree/main)
+
 ## Todo
 - Create component to contain current cipher info and configs
 - Refine encryption functionality
